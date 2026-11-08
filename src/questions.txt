@@ -1,0 +1,3 @@
+What does CPU stand for?|Central Processing Unit|Computer Personal Unit|Central Program Utility|Core Processing User|0|100
+Which data structure follows the First In First Out (FIFO) principle?|Stack|Queue|Tree|Graph|1|100
+Which Java keyword is used to create a subclass?|implements|super|extends|import|2|100
