@@ -1,5 +1,5 @@
 package Trivia;
-public class Queue
+public class Queue<T>
 {
 
     public Queue()
