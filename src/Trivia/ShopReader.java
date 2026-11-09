@@ -1,6 +1,14 @@
 package Trivia;
 
-
+/**
+ * // -------------------------------------------------------------------------
+/**
+ *  Formats information about the power-up shop
+ *  so it can be displayed to the player.
+ * 
+ *  @author lenab
+ *  @version Nov 8, 2026
+ */
 public class ShopReader
 {
 

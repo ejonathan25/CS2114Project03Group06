@@ -3,9 +3,23 @@ import java.util.EnumMap;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * // -------------------------------------------------------------------------
+/**
+ *  Represents the power-up show in the trivia game.
+ *  Stores the prices and stock of power-ups and handles
+ *  player purchases.
+ * 
+ *  @author lenab
+ *  @version Nov 8, 2026
+ */
 public class Shop
 {
 
+    /**
+     * Creates a shop with the prices and starting
+     * stock for each available power-up.
+     */
     public Shop()
     {
         prices = new EnumMap<>(PowerUp.class);
