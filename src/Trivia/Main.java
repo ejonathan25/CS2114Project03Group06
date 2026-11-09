@@ -61,7 +61,7 @@ public class Main
     {
         Main game = new Main();
 
-        String path = "questions.txt";
+        String path = "src/questions.txt";
 
         if (args.length > 0)
         {

@@ -40,5 +40,17 @@ public class QuestionReader
         
         return result;
     }
+    
+    /**
+     * Formats the player's current game status.
+     * @param points the players current points
+     * @param lives the players remaining lives
+     * @param questionNumber the current question number
+     * @return the formatted game status
+     */
+    public String formatStatus(int points, int lives, int questionNumber)
+    {
+        return "Points: " + points + " | Lives: " + " | Question: " + questionNumber;
+    } 
 
 }

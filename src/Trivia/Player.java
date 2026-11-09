@@ -11,7 +11,7 @@ import java.util.List;
  * @version Nov 8, 2026
  */
 public class Player
-{.........
+{
  
     private int points;
     private int lives;
