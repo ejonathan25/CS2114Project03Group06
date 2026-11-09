@@ -6,7 +6,6 @@ import java.util.List;
  
 /**
  * Model class for the player: points, lives, and power-ups.
- * Has no knowledge of any view or of the Scanner/console.
  *
  * @author Colin Smith
  * @version Nov 8, 2026
