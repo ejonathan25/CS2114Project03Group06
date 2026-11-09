@@ -50,7 +50,25 @@ public class QuestionReader
      */
     public String formatStatus(int points, int lives, int questionNumber)
     {
-        return "Points: " + points + " | Lives: " + " | Question: " + questionNumber;
+        return "Points: " + points + " | Lives: " + lives + " | Question: " + questionNumber;
     } 
+    
+    /**
+     * Formats the result of the players answer
+     * @param correct whether the answer was correct
+     * @param correctAnswer the correct answer
+     * @return the formatted answer result
+     */
+    public String formatResult(boolean correct, String correctAnswer)
+    {
+        if (correct)
+        {
+            return "Correct!";
+        }
+        
+        
+        return "Incorrect! The correct answer is: " + correctAnswer;
+        
+    }
 
 }

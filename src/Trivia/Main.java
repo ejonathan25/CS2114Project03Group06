@@ -31,6 +31,7 @@ public class Main
      * should be doubled.
      */
     private boolean doubleCurrentQuestion;
+    private int questionNumber = 1;
 
 
     //~ Constructors ..........................................................
@@ -131,7 +132,7 @@ public class Main
 
             System.out.println();
             System.out.println(
-                qReader.format(current, 1));
+                qReader.format(current, questionNumber));
 
             String[] choices = current.getChoices();
 
@@ -161,6 +162,8 @@ public class Main
             }
 
             handleAnswer(choice - 1);
+            
+            questionNumber++;
 
             doubleCurrentQuestion = false;
 
@@ -411,7 +414,8 @@ public class Main
         System.out.println(
             qReader.formatStatus(
                 player.getPoints(),
-                player.getLives()));
+                player.getLives(),
+                questionNumber));
     }
 
 
