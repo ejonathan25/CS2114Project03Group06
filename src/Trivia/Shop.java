@@ -84,7 +84,7 @@ public class Shop
         }
         
         stock.put(p, stock.get(p) - 1);
-        pl.addPower(p);
+        pl.addPowerUp(p);
         
         return PurchaseResult.OK;
     }
