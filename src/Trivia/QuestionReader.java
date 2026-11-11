@@ -35,6 +35,7 @@ public class QuestionReader
         }
 
         StringBuilder result = new StringBuilder();
+
         result.append("Question ")
             .append(number)
             .append(": ")
@@ -45,7 +46,7 @@ public class QuestionReader
 
         for (int i = 0; i < choices.length; i++)
         {
-            result.append((char) ('A' + i))
+            result.append(i + 1)
                 .append(". ")
                 .append(choices[i])
                 .append("\n");
