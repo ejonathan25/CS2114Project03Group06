@@ -3,8 +3,9 @@ package Trivia;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Main controller for the Trivia game.
@@ -17,8 +18,6 @@ import java.util.List;
  */
 public class Main
 {
-    //~ Fields ................................................................
-
     private Queue<Question> queue;
     private Player player;
     private Shop shop;
@@ -31,10 +30,8 @@ public class Main
      * should be doubled.
      */
     private boolean doubleCurrentQuestion;
-    private int questionNumber = 1;
 
-
-    //~ Constructors ..........................................................
+    private int questionNumber;
 
     /**
      * Creates the main game controller.
@@ -48,10 +45,8 @@ public class Main
         sReader = new ShopReader();
         in = new Scanner(System.in);
         doubleCurrentQuestion = false;
+        questionNumber = 1;
     }
-
-
-    //~ Public Methods ........................................................
 
     /**
      * Starts the trivia game.
@@ -75,7 +70,6 @@ public class Main
         }
     }
 
-
     /**
      * Loads questions from a text file into the queue.
      *
@@ -84,6 +78,12 @@ public class Main
      */
     public boolean loadQuestions(String path)
     {
+        if (path == null || path.isBlank())
+        {
+            System.out.println("Invalid question file path.");
+            return false;
+        }
+
         try
         {
             QuestionList questionList = new QuestionList();
@@ -93,8 +93,8 @@ public class Main
             queue = questionList.toQueue();
 
             System.out.println(
-                "Successfully loaded " +
-                questionList.size() + " questions.");
+                "Successfully loaded "
+                + questionList.size() + " questions.");
 
             return true;
         }
@@ -113,12 +113,11 @@ public class Main
         }
     }
 
-
     /**
      * Runs the main game loop.
      *
-     * The game ends when there are no questions left
-     * or the player runs out of lives.
+     * The game ends when there are no questions left,
+     * the player runs out of lives, or input ends.
      */
     public void run()
     {
@@ -134,20 +133,19 @@ public class Main
             System.out.println(
                 qReader.format(current, questionNumber));
 
-            String[] choices = current.getChoices();
-
-            for (int i = 0; i < choices.length; i++)
-            {
-                System.out.println(
-                    (i + 1) + ". " + choices[i]);
-            }
-
             System.out.println();
             System.out.println("Enter 1-4 to answer.");
             System.out.println("Enter 5 to visit the shop.");
             System.out.println("Enter 6 to use a power-up.");
 
             int choice = promptChoice(1, 6);
+
+            // Stop the game if input has ended.
+            if (choice == -1)
+            {
+                System.out.println("\nInput ended. Exiting game.");
+                break;
+            }
 
             if (choice == 5)
             {
@@ -162,10 +160,8 @@ public class Main
             }
 
             handleAnswer(choice - 1);
-            
-            questionNumber++;
 
-            doubleCurrentQuestion = false;
+            questionNumber++;
 
             modelChanged();
         }
@@ -182,7 +178,6 @@ public class Main
         System.out.println(
             "Lives remaining: " + player.getLives());
     }
-
 
     /**
      * Checks the player's answer.
@@ -230,8 +225,10 @@ public class Main
                 qReader.formatResult(
                     false, current.getCorrectAnswer()));
         }
-    }
 
+        // DOUBLE applies only to the current question.
+        doubleCurrentQuestion = false;
+    }
 
     /**
      * Displays the shop and processes purchases.
@@ -258,6 +255,12 @@ public class Main
 
             int choice = promptChoice(0, items.size());
 
+            // Exit the shop if input ends.
+            if (choice == -1)
+            {
+                return;
+            }
+
             if (choice == 0)
             {
                 shopping = false;
@@ -273,6 +276,8 @@ public class Main
                 {
                     System.out.println(
                         "Purchase successful!");
+
+                    modelChanged();
                 }
                 else if (
                     result == PurchaseResult.NOT_ENOUGH_POINTS)
@@ -290,7 +295,6 @@ public class Main
         }
     }
 
-
     /**
      * Uses a power-up owned by the player.
      *
@@ -298,12 +302,12 @@ public class Main
      */
     public void handlePowerUp(PowerUp p)
     {
-        if (p == null)
+        if (p == null || queue.isEmpty() || !player.isAlive())
         {
             return;
         }
 
-        if (!player.usePowerUp(p))
+        if (player.getPowerUpCount(p) <= 0)
         {
             System.out.println(
                 "You do not own this power-up.");
@@ -311,15 +315,19 @@ public class Main
             return;
         }
 
+        if (!player.usePowerUp(p))
+        {
+            return;
+        }
+
         if (p == PowerUp.SKIP)
         {
-            if (!queue.isEmpty())
-            {
-                queue.dequeue();
+            queue.dequeue();
 
-                System.out.println(
-                    "Question skipped!");
-            }
+            doubleCurrentQuestion = false;
+            questionNumber++;
+
+            System.out.println("Question skipped!");
         }
         else if (p == PowerUp.EXTRA_LIFE)
         {
@@ -333,17 +341,18 @@ public class Main
             doubleCurrentQuestion = true;
 
             System.out.println(
-                "Your next correct answer is worth double points!");
+                "The current question is now worth double points!");
         }
-    }
 
+        modelChanged();
+    }
 
     /**
      * Prompts the user until a valid number is entered.
      *
      * @param min minimum accepted number
      * @param max maximum accepted number
-     * @return valid selection
+     * @return valid selection, or -1 if input ends
      */
     public int promptChoice(int min, int max)
     {
@@ -353,7 +362,7 @@ public class Main
 
             if (!in.hasNextLine())
             {
-                return min;
+                return -1;
             }
 
             String input = in.nextLine();
@@ -366,11 +375,10 @@ public class Main
             }
 
             System.out.println(
-                "Invalid input. Please enter a number from " +
-                min + " to " + max + ".");
+                "Invalid input. Please enter a number from "
+                + min + " to " + max + ".");
         }
     }
-
 
     /**
      * Converts user input into a valid integer selection.
@@ -383,7 +391,7 @@ public class Main
     public static int parseChoice(
         String s, int min, int max)
     {
-        if (s == null || s.isBlank())
+        if (s == null || s.isBlank() || min > max)
         {
             return -1;
         }
@@ -405,7 +413,6 @@ public class Main
         }
     }
 
-
     /**
      * Refreshes the displayed player status.
      */
@@ -418,36 +425,31 @@ public class Main
                 questionNumber));
     }
 
-
-    //~ Private Methods .......................................................
-
     /**
      * Displays available power-ups and lets the player
      * select one to use.
      */
     private void offerPowerUp()
     {
-        PowerUp[] powerUps = PowerUp.values();
+        List<PowerUp> availablePowerUps = new ArrayList<>();
 
         System.out.println();
         System.out.println("Your power-ups:");
 
-        int available = 0;
-
-        for (PowerUp p : powerUps)
+        for (PowerUp p : PowerUp.values())
         {
             int count = player.getPowerUpCount(p);
 
             if (count > 0)
             {
-                available++;
+                availablePowerUps.add(p);
 
                 System.out.println(
                     p + " - Quantity: " + count);
             }
         }
 
-        if (available == 0)
+        if (availablePowerUps.isEmpty())
         {
             System.out.println(
                 "You do not have any power-ups.");
@@ -457,23 +459,24 @@ public class Main
 
         System.out.println();
 
-        for (int i = 0; i < powerUps.length; i++)
+        for (int i = 0; i < availablePowerUps.size(); i++)
         {
             System.out.println(
-                (i + 1) + ". " + powerUps[i]);
+                (i + 1) + ". " + availablePowerUps.get(i));
         }
 
         System.out.println(
-            (powerUps.length + 1) + ". Cancel");
+            (availablePowerUps.size() + 1) + ". Cancel");
 
         int choice = promptChoice(
-            1, powerUps.length + 1);
+            1, availablePowerUps.size() + 1);
 
-        if (choice == powerUps.length + 1)
+        if (choice == -1
+            || choice == availablePowerUps.size() + 1)
         {
             return;
         }
 
-        handlePowerUp(powerUps[choice - 1]);
+        handlePowerUp(availablePowerUps.get(choice - 1));
     }
 }
