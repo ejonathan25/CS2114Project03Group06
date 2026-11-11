@@ -1,47 +1,56 @@
+
 package Trivia;
 
 /**
- * // -------------------------------------------------------------------------
-/**
- *  Formats information about the power-up shop
- *  so it can be displayed to the player.
- * 
- *  @author lenab
- *  @version Nov 8, 2026
+ * Formats information about the power-up shop
+ * so it can be displayed to the player.
+ *
+ * @author lenab
+ * @version Nov 8, 2026
  */
 public class ShopReader
 {
-
     /**
-     * Creates a ShopReader to format shop information.
+     * Creates a ShopReader.
      */
     public ShopReader()
     {
-        // TODO Auto-generated constructor stub
+        // No initialization needed.
     }
-    
+
     /**
-     * Formats the shops items, prices, and stock
-     * into text that can be displayed to the player.
-     * 
+     * Formats the shop's items, prices, and stock.
+     *
      * @param shop the shop to display
-     * @param playerPoints the players current points
+     * @param playerPoints the player's current points
      * @return the formatted shop information
+     * @throws IllegalArgumentException if shop is null
      */
-    public String formate(Shop shop, int playerPoints)
+    public String format(Shop shop, int playerPoints)
     {
-        String result = "===== POWER-UP SHOP ===== \n";
-        result += "Your Points: " + playerPoints + "\n\n";
-        
+        if (shop == null)
+        {
+            throw new IllegalArgumentException(
+                "Shop must not be null.");
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        result.append("===== POWER-UP SHOP =====\n");
+        result.append("Your Points: ")
+            .append(playerPoints)
+            .append("\n\n");
+
         for (PowerUp p : shop.getItems())
         {
-            result += p + " - " + shop.getPrice(p) 
-                + " points (" + shop.getStock(p)
-                + " left)\n";
-            
+            result.append(p)
+                .append(" - ")
+                .append(shop.getPrice(p))
+                .append(" points (")
+                .append(shop.getStock(p))
+                .append(" left)\n");
         }
-        
-        return result;
+
+        return result.toString();
     }
- 
 }
