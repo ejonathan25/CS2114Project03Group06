@@ -124,4 +124,28 @@ public class Question
     {
         return choices[correctIndex];
     }
+    
+    /**
+     * Returns the indices of two incorrect answer choices
+     * that can be removed when using the HINT power up.
+     * 
+     * @return an array containing two incorrect choice indices.
+     */
+    public int[] getHintChoices()
+    {
+        int[] incorrect = new int[2];
+        int count = 0;
+        
+        for (int i = 0; i < NUM_CHOICES; i++)
+        {
+            if (!isCorrect(i) && count < 2)
+            {
+                incorrect[count] = i;
+                count++;
+            }
+        }
+        return incorrect;
+    }
+    
+    
 }

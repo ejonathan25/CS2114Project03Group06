@@ -23,6 +23,13 @@ public enum PowerUp
     /**
      * Allows the player to double their points.
      */
-    DOUBLE
+    DOUBLE,
+    
+    /**
+     * Removes two incorrect answer choices from a question.
+     */
+    HINT
+    
+    
 
 }

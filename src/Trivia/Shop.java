@@ -30,10 +30,12 @@ public class Shop
         prices.put(PowerUp.SKIP, 30);
         prices.put(PowerUp.EXTRA_LIFE, 50);
         prices.put(PowerUp.DOUBLE, 40);
+        prices.put(PowerUp.HINT, 35);
 
         stock.put(PowerUp.SKIP, 5);
         stock.put(PowerUp.EXTRA_LIFE, 3);
         stock.put(PowerUp.DOUBLE, 4);
+        stock.put(PowerUp.HINT, 3);
     }
 
     /**
