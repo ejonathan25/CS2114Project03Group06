@@ -30,6 +30,11 @@ public class Main
      * should be doubled.
      */
     private boolean doubleCurrentQuestion;
+    
+    /**
+     * Tracks whether the HINT power up is active for the current question.
+     */
+    private boolean hintCurrentQuestion;
 
     private int questionNumber;
 
@@ -45,6 +50,7 @@ public class Main
         sReader = new ShopReader();
         in = new Scanner(System.in);
         doubleCurrentQuestion = false;
+        hintCurrentQuestion = false;
         questionNumber = 1;
     }
 
@@ -130,8 +136,25 @@ public class Main
             Question current = queue.peek();
 
             System.out.println();
-            System.out.println(
-                qReader.format(current, questionNumber));
+            if (hintCurrentQuestion)
+            {
+                int[] hidden = current.getHintChoices();
+                String[] choices = current.getChoices();
+                
+                System.out.println("Question" + questionNumber + ": " + current.getPrompt());
+                
+                for (int i = 0; i <  choices.length; i++)
+                {
+                    if (i != hidden[0] && i != hidden[1])
+                    {
+                        System.out.println((i+1) + ". " + choices[i]);
+                    }
+                }
+            }
+            else
+            {
+                System.out.println(qReader.format(current, questionNumber));
+            }
 
             System.out.println();
             System.out.println("Enter 1-4 to answer.");
@@ -228,6 +251,7 @@ public class Main
 
         // DOUBLE applies only to the current question.
         doubleCurrentQuestion = false;
+        hintCurrentQuestion = false;
     }
 
     /**
@@ -325,6 +349,7 @@ public class Main
             queue.dequeue();
 
             doubleCurrentQuestion = false;
+            hintCurrentQuestion = false;
             questionNumber++;
 
             System.out.println("Question skipped!");
@@ -342,6 +367,12 @@ public class Main
 
             System.out.println(
                 "The current question is now worth double points!");
+        }
+        else if (p == PowerUp.HINT)
+        {
+            hintCurrentQuestion = true;
+            
+            System.out.println("HINT activated! Two incorrect answers will be hiden.");
         }
 
         modelChanged();
