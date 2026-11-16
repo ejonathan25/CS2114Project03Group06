@@ -49,7 +49,7 @@ All current JUnit tests pass.
 
 
 ## Reflection
-Our design has not yet fully absorbed the change we were wanting. We still plan for it to touch Question with the timer and Main for the view. So far, our prediction of the timer being done quickly was incorrect as we are still working on it and it may be until next time when it is complete. However, the process is remaining the same, and we just need time to look over it. We believe StackOverflow can still help us majorly here. Furthermore, we are just a little behind due to our sick week last week and will have it all done this go-around. The change will definitely persist in the model and will be transferable, like the rest of our design, to view. The view only has to learn about the timer and countdown and consistently change and showcase the timer counting downwards. Our D3 plan has not changed much as we have solely added more PowerUps and are continuing with our base plan. This is because our plan was detailed appropriately and we just have not had the time to have needed changes show up. Nothing is not working yet, just missing stuff; we just need more questions and the timer to actually be made. We are also needing the difficulty feature to be created and finalized.
+Our design has not yet fully absorbed the change we were wanting. We still plan for it to touch Question with the timer and Main for the view. So far, our prediction of the timer being done quickly was incorrect as we are still working on it and it may be until next time when it is complete. However, the process is remaining the same, and we just need time to look over it. We believe StackOverflow can still help us majorly here. Furthermore, we are just a little behind due to our sick week last week and will have it all done this go-around. The change will definitely persist in the model and will be transferable, like the rest of our design, to view. The view only has to learn about the timer and countdown and consistently change and showcase the timer counting downwards. Our D3 plan has not changed much as we have solely added more PowerUps and are continuing with our base plan. This is because our plan was detailed appropriately and we just have not had the time to have needed changes show up. Nothing is not working yet, just missing stuff; we just need more questions and the timer to actually be made. We are also needing the difficulty feature to be created and finalized. 
 
 ## What does not work yet
 The main remaining items are:
@@ -68,6 +68,7 @@ What is left for the final build?
 - Update QuestionList and the question-file format to support difficulty.
 - Add Easy, Medium, and Hard selection through Main.
 - Make sure the question queue contains questions matching the selected difficulty.
+- Add the timer method to Question.
 
 
 
